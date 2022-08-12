@@ -13,7 +13,7 @@ $noticia->usuario->setId($_SESSION['id']);
 $noticia->usuario->setTipo($_SESSION['tipo']);
 $dados = $noticia->listarUm();
 
-if(isset($_POST['inserir'])){
+if(isset($_POST['atualizar'])){
 
 	$noticia->setTitulo($_POST['titulo']);
 	$noticia->setTexto($_POST['texto']);
@@ -70,24 +70,24 @@ if(isset($_POST['inserir'])){
 
             <div class="mb-3">
                 <label class="form-label" for="texto">Texto:</label>
-                <textarea class="form-control" required name="texto" id="texto" cols="50" rows="6"></textarea>
+                <textarea class="form-control" required name="texto" id="texto" cols="50" rows="6"><?=$dados['texto']?></textarea>
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="resumo">Resumo (máximo de 300 caracteres):</label>
                 <span id="maximo" class="badge bg-danger">0</span>
-                <textarea class="form-control" required name="resumo" id="resumo" cols="50" rows="2" maxlength="300"></textarea>
+                <textarea class="form-control" required name="resumo" id="resumo" cols="50" rows="2" maxlength="300"><?=$dados['resumo']?></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="imagem-existente" class="form-label">Imagem da notícia:</label>
                 <!-- campo somente leitura, meramente informativo -->
-                <input class="form-control" type="text" id="imagem-existente" name="imagem-existente" readonly>
+                <input value="<?=$dados['imagem']?>" class="form-control" type="text" id="imagem-existente" name="imagem-existente" readonly>
             </div>
 
             <div class="mb-3">
                 <label for="imagem" class="form-label">Caso queira mudar, selecione outra imagem:</label>
-                <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml">
+                <input  class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml">
             </div>
 
             <div class="mb-3">

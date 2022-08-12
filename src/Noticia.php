@@ -203,7 +203,7 @@ final class Noticia {
             $consulta->bindParam(":texto", $this->texto, PDO::PARAM_STR);
             $consulta->bindParam(":resumo", $this->resumo, PDO::PARAM_STR);
             $consulta->bindParam(":imagem", $this->imagem, PDO::PARAM_STR);
-            $consulta->bindParam(":categoria_id", $this->categoria_id, PDO::PARAM_INT);
+            $consulta->bindParam(":categoria_id", $this->categoriaId, PDO::PARAM_INT);
             $consulta->bindParam(":destaque", $this->destaque, PDO::PARAM_STR);
 
             if ($this->usuario->getTipo() !== 'admin') {
