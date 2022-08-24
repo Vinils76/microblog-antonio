@@ -5,6 +5,7 @@ use PDO, Exception;
 final class Noticia {
     private int $id;
     private string $data;
+    private string $termo;
     private string $titulo;
     private string $texto;
     private string $resumo;
@@ -325,7 +326,34 @@ final class Noticia {
         return $resultado;
     }        
 
+    public function busca():array {
+        $sql = "SELECT titulo, data, id, resumo FROM noticias WHERE titulo LIKE :termo OR texto LIKE :termo OR resumo LIKE :termo ORDER BY data DESC";
 
+    
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":termo", '%'.$this->termo.'%', PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }
+        return $resultado;
+    }
+
+    public function listarPorCategorias():array {
+        $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.resumo, usuarios.nome AS autor, categorias.nome AS categoria FROM noticias LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id LEFT JOIN categorias ON noticias.categoria_id = categorias.id WHERE categoria_id = :categoria_id";
+
+         try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":categoria_id", $this->categoriaId, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }
+        return $resultado;
+    }
 
 
     /* 
@@ -400,6 +428,16 @@ final class Noticia {
         $this->destaque = filter_var($destaque, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
+    public function getTermo(): string
+    {
+        return $this->termo;
+    }
+
+    
+    public function setTermo(string $termo)
+    {
+        $this->termo = filter_var($termo, FILTER_SANITIZE_SPECIAL_CHARS);
+    }
     
     public function getCategoriaId(): int
     {
